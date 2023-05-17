@@ -23,8 +23,6 @@ export default function CustomForm({type}: {type: 'login' | 'register'}){
     const email = e.currentTarget.email.value
     const password = e.currentTarget.password.value
     
-    console.log({email, password})
-
     if(type == 'login'){
       fetch(`${endPoint}auth/login`, {
         method: 'POST',
@@ -36,13 +34,18 @@ export default function CustomForm({type}: {type: 'login' | 'register'}){
           password
         })
       }).then(prom=> prom.json()).then(res=> {
-        console.log(res)
 
         if(res.status == 401) return setError('Campos inválidos\nEl coreo o la contraseña es invalida.')
 
         if(res.token){
-          console.log(res.token)
           localStorage.setItem('secret', res.token)
+          fetch(`${endPoint}users/@me`, {
+            headers: {
+              "Authorization": `jwt ${res.token}`
+            }
+          }).then(prom=> prom.json()).then(res=> {
+            if(res.id) setUser(res)
+          })
           router.push('/')
         }
       })
@@ -61,7 +64,6 @@ export default function CustomForm({type}: {type: 'login' | 'register'}){
           password
         })
       }).then(prom=> prom.json()).then(res=> {
-        console.log(res)
 
         if(res.status == 400) {
           if(res.message.includes('llave duplicada') && res.message.includes('user_name')) return setError('El nombre de usuario que ingresaste ya ha sido utilizado por otro usuario.\nIngresa otro nombre de usuario')
@@ -75,7 +77,7 @@ export default function CustomForm({type}: {type: 'login' | 'register'}){
 
         if(res.user) setUser(res.user)
       })
-      .catch(()=> console.error('Error in login'))
+      .catch(()=> console.error('Error in register'))
     }
   }
 
