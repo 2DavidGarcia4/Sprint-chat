@@ -12,9 +12,11 @@ export default function Login(){
   const router = useRouter()
 
   useEffect(()=> {
-    setTimeout(()=> {
-      router.push('/')
-    }, 10000)
+    if(isLoged){
+      setTimeout(()=> {
+        router.push('/')
+      }, 10000)
+    }
   })
 
   return (
