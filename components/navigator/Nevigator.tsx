@@ -14,7 +14,7 @@ import { MouseEvent, useEffect } from 'react'
 import { endPoint } from '@/utils/data'
 import CircleStatus from '../status/CircleStatus'
 
-
+const routes = ['/chats', '/me', '/friends', '/settings']
 
 export default function Navigator(){
   const pathname = usePathname()
@@ -50,11 +50,11 @@ export default function Navigator(){
   }
 
   return (
-    <nav className={`${styles.navigator} ${['/login', '/register'].some(s=> s==pathname) ? styles.hide : ''}`}>
+    <nav className={`${styles.navigator} ${!routes.some(s=> s==pathname) ? styles.hide : ''}`}>
       <ul className={styles.navigator_elements}>
         <li onClick={handlerClick} className={`${styles.navigator_elements_item} ${isActiveRoute('/') ? styles.selected : ''}`}>
-          <Link href={'/'}>
-            {isActiveRoute('/') ? <BsChatLeftTextFill className={styles.navigator_icon}  /> : <BsChatLeftText className={styles.navigator_icon} />}
+          <Link href={'/chats'}>
+            {isActiveRoute('/chats') ? <BsChatLeftTextFill className={styles.navigator_icon}  /> : <BsChatLeftText className={styles.navigator_icon} />}
           </Link>
         </li>
         <li onClick={handlerClick} className={`${styles.navigator_elements_item} ${isActiveRoute('/me') ? styles.selected : ''}`}>
