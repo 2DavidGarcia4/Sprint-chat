@@ -24,6 +24,6 @@ export default function CircleStatus({status, size}: {status: UserStatus, size?:
   }, [])
 
   return (
-    <div ref={thisRef} className={`${styles.circle} ${styles[statusTypes[status.status]]}`} style={size ? {width: `${size}px`, height: `${size}px`, borderWidth: `${Math.floor(size/8)}px`} : undefined} ></div>
+    <div ref={thisRef} className={`${styles.circle} ${styles[statusTypes[status.type]]}`} style={size ? {width: `${size}px`, height: `${size}px`, borderWidth: `${Math.floor(size/8)}px`} : undefined} ></div>
   )
 }
