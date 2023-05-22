@@ -9,33 +9,23 @@ import { RiContactsLine, RiContactsFill } from 'react-icons/ri'
 import { HiOutlineUser, HiUser } from 'react-icons/hi'
 import { BsGear, BsGearFill } from 'react-icons/bs'
 import { useUser } from '@/hooks/user'
-import { useUserProv } from '@/context/contexts'
+import { useUserCtx } from '@/context/contexts'
 import { MouseEvent, useEffect } from 'react'
-import { endPoint } from '@/utils/data'
 import CircleStatus from '../status/CircleStatus'
+import { customFetch } from '@/utils/functions'
 
 const routes = ['/chats', '/me', '/friends', '/settings']
 
 export default function Navigator(){
   const pathname = usePathname()
   const { protectedRoute } = useUser()
-  const { user, setUser } = useUserProv()
+  const { user, setUser } = useUserCtx()
 
   useEffect(()=> {
-    if(typeof localStorage != 'undefined'){
-      const token = localStorage.getItem('secret')
-
-      if(token){
-        fetch(`${endPoint}users/@me`, {
-          headers: {
-            "Authorization": `jwt ${token}`
-          }
-        }).then(prom=> prom.json()).then(res=> {
-          if(res.id) setUser(res)
-        })
-        .catch(()=> '')
-      }
-    }
+    customFetch(`users/@me`).then(res=> {
+      if(res.id) setUser(res)
+    })
+    .catch(()=> '')
   }, [])
 
   const isActiveRoute = (routName: string) => routName == pathname

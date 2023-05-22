@@ -8,8 +8,8 @@ import { useRouter } from 'next/navigation'
 import { FormEvent, useState } from 'react'
 import { BsX } from 'react-icons/bs'
 import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai'
-import { endPoint } from '@/utils/data'
 import { useUserCtx } from '@/context/contexts'
+import { customFetch } from '@/utils/functions'
 
 export default function CustomForm({type}: {type: 'login' | 'register'}){
   const [error, setError] = useState('')
@@ -24,47 +24,31 @@ export default function CustomForm({type}: {type: 'login' | 'register'}){
     const password = e.currentTarget.password.value
     
     if(type == 'login'){
-      fetch(`${endPoint}auth/login`, {
-        method: 'POST',
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          email,
-          password
-        })
-      }).then(prom=> prom.json()).then(res=> {
+      customFetch(`auth/login`, 'POST', {
+        email,
+        password
+      }).then(res=> {
 
         if(res.status == 401) return setError('Campos inválidos\nEl coreo o la contraseña es invalida.')
 
         if(res.token){
           localStorage.setItem('secret', res.token)
-          fetch(`${endPoint}users/@me`, {
-            headers: {
-              "Authorization": `jwt ${res.token}`
-            }
-          }).then(prom=> prom.json()).then(res=> {
+          customFetch(`users/@me`).then(res=> {
             if(res.id) setUser(res)
           })
           router.push('/')
         }
       })
       .catch(()=> console.error('Error in login'))
+
     }else{
       const userName = e.currentTarget.userName.value
 
-      fetch(`${endPoint}auth/register`, {
-        method: 'POST',
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          userName,
-          email,
-          password
-        })
-      }).then(prom=> prom.json()).then(res=> {
-
+      customFetch(`auth/register`, 'POST', {
+        userName,
+        email,
+        password
+      }).then(res=> {
         if(res.status == 400) {
           if(res.message.includes('llave duplicada') && res.message.includes('user_name')) return setError('El nombre de usuario que ingresaste ya ha sido utilizado por otro usuario.\nIngresa otro nombre de usuario')
           if(res.message.includes('llave duplicada') && res.message.includes('email')) return setError('El correo que ingresaste pertenece a otro usuario.\nIngresa otro correo.')
