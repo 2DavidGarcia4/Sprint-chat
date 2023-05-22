@@ -9,13 +9,13 @@ import { FormEvent, useState } from 'react'
 import { BsX } from 'react-icons/bs'
 import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai'
 import { endPoint } from '@/utils/data'
-import { useUserProv } from '@/context/contexts'
+import { useUserCtx } from '@/context/contexts'
 
 export default function CustomForm({type}: {type: 'login' | 'register'}){
   const [error, setError] = useState('')
   const [show, setShow] = useState(false)
   const router = useRouter()
-  const { setUser } = useUserProv()
+  const { setUser } = useUserCtx()
 
   const handlerSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
