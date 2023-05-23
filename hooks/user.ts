@@ -1,11 +1,10 @@
-import { useUserProv } from '@/context/contexts'
+import { useUserCtx } from '@/context/contexts'
 import { endPoint } from '@/utils/data'
 import { useRouter } from 'next/navigation'
-import { useEffect, useState } from 'react'
 
 export function useUser() {
   const route = useRouter()
-  const { user } = useUserProv()
+  const { user } = useUserCtx()
 
   const isLoged = Boolean(user)
 
