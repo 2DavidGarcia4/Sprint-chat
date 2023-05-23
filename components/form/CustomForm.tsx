@@ -5,7 +5,7 @@ import styles from './customForm.module.scss'
 import Link from 'next/link'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
-import { FormEvent, useState } from 'react'
+import { FormEvent, useState, ChangeEvent } from 'react'
 import { BsX } from 'react-icons/bs'
 import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai'
 import { useUserCtx } from '@/context/contexts'
@@ -43,6 +43,9 @@ export default function CustomForm({type}: {type: 'login' | 'register'}){
 
     }else{
       const userName = e.currentTarget.userName.value
+      const confirmPassword = e.currentTarget.confirmPassword.value
+
+      if(password != confirmPassword) return setError('Las contraseñas son diferentes')
 
       customFetch(`auth/register`, 'POST', {
         userName,
@@ -73,6 +76,10 @@ export default function CustomForm({type}: {type: 'login' | 'register'}){
     setError('')
   }
 
+  const handlerChange = () => {
+    if(error) setError('')
+  }
+
   return (
     <form className={styles.form} onSubmit={handlerSubmit} >
       <div className={styles.form_header}>
@@ -82,19 +89,19 @@ export default function CustomForm({type}: {type: 'login' | 'register'}){
 
       {type == 'register' && (
         <div className={styles['form-element']}>
-          <input className={styles['form-input']} type="text" id='userName' placeholder='&nbsp;' pattern="^[a-zA-Z0-9]+$" minLength={4} required />
+          <input className={styles['form-input']} onChange={handlerChange} type="text" id='userName' placeholder='&nbsp;' pattern="^[a-zA-Z0-9]+$" minLength={4} required />
           <span className={styles['form-name']}>Nombre de usuario</span>
           <p className={styles['form-element-info']}>Su nombre de usuario debe de ser unico y tener entre <strong>4</strong> y <strong>30</strong> caracteres, y no debe contener espacios, caracteres especiales ni emojis.</p>
         </div>
       )}
 
       <div className={styles['form-element']}>
-        <input className={styles['form-input']} type="email" id='email' placeholder='&nbsp;' required />
+        <input className={styles['form-input']} onChange={handlerChange} type="email" id='email' placeholder='&nbsp;' required />
         <span className={styles['form-name']}>Correo</span>
       </div>
 
       <div className={styles['form-element']}>
-        <input className={styles['form-input']} type={show ? "text" : "password"} id='password' placeholder='&nbsp;' minLength={8} maxLength={20} required />
+        <input className={styles['form-input']} onChange={handlerChange} type={show ? "text" : "password"} id='password' placeholder='&nbsp;' minLength={8} maxLength={20} required />
         <span className={styles['form-name']}>Contraseña</span>
         {show ? <AiOutlineEye className={styles['form-eye']} onClick={togglePassword} /> : <AiOutlineEyeInvisible className={styles['form-eye']} onClick={togglePassword} />}
         {type == 'register' && 
@@ -102,8 +109,14 @@ export default function CustomForm({type}: {type: 'login' | 'register'}){
         }
       </div>
 
+      {type == 'register' && <div className={styles['form-element']}>
+        <input className={styles['form-input']} onChange={handlerChange} type={show ? "text" : "password"} id='confirmPassword' placeholder='&nbsp;' minLength={8} maxLength={20} required />
+        <span className={styles['form-name']}>Confirmar contraseña</span>
+        {show ? <AiOutlineEye className={styles['form-eye']} onClick={togglePassword} /> : <AiOutlineEyeInvisible className={styles['form-eye']} onClick={togglePassword} />}
+      </div>}
+
       {error && <div className={styles['form_error']}>
-        <BsX className={styles['form_error-close']} onClick={closeError} />
+        <BsX className={styles['form_error-close']} onChange={handlerChange} onClick={closeError} />
         <p className={styles['form_error-text']}>{error}</p>
       </div>}
 
