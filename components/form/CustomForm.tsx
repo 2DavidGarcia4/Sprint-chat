@@ -5,7 +5,7 @@ import styles from './customForm.module.scss'
 import Link from 'next/link'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
-import { FormEvent, useState, ChangeEvent } from 'react'
+import { FormEvent, useState, MouseEvent } from 'react'
 import { BsX } from 'react-icons/bs'
 import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai'
 import { useUserCtx } from '@/context/contexts'
@@ -14,6 +14,7 @@ import { customFetch } from '@/utils/functions'
 export default function CustomForm({type}: {type: 'login' | 'register'}){
   const [error, setError] = useState('')
   const [show, setShow] = useState(false)
+  const [showConfir, setShowConfir] = useState(false)
   const router = useRouter()
   const { setUser } = useUserCtx()
 
@@ -68,8 +69,9 @@ export default function CustomForm({type}: {type: 'login' | 'register'}){
     }
   }
 
-  const togglePassword = () => {
-    setShow(s=> !s)
+  const togglePassword = ({currentTarget: {id}}: MouseEvent<SVGElement>) => {
+    if(id == 'password') setShow(s=> !s)
+    else setShowConfir(sc=> !sc)
   }
 
   const closeError = () => {
@@ -103,16 +105,16 @@ export default function CustomForm({type}: {type: 'login' | 'register'}){
       <div className={styles['form-element']}>
         <input className={styles['form-input']} onChange={handlerChange} type={show ? "text" : "password"} id='password' placeholder='&nbsp;' minLength={8} maxLength={20} required />
         <span className={styles['form-name']}>Contraseña</span>
-        {show ? <AiOutlineEye className={styles['form-eye']} onClick={togglePassword} /> : <AiOutlineEyeInvisible className={styles['form-eye']} onClick={togglePassword} />}
+        {show ? <AiOutlineEye className={styles['form-eye']} id='password' onClick={togglePassword} /> : <AiOutlineEyeInvisible className={styles['form-eye']} id='password' onClick={togglePassword} />}
         {type == 'register' && 
           <p className={styles['form-element-info']}>Su contraseña debe tener entre <strong>8</strong> y <strong>20</strong> caracteres, contener letras y números, y no debe contener espacios, caracteres especiales ni emojis.</p>
         }
       </div>
 
       {type == 'register' && <div className={styles['form-element']}>
-        <input className={styles['form-input']} onChange={handlerChange} type={show ? "text" : "password"} id='confirmPassword' placeholder='&nbsp;' minLength={8} maxLength={20} required />
+        <input className={styles['form-input']} onChange={handlerChange} type={showConfir ? "text" : "password"} id='confirmPassword' placeholder='&nbsp;' minLength={8} maxLength={20} required />
         <span className={styles['form-name']}>Confirmar contraseña</span>
-        {show ? <AiOutlineEye className={styles['form-eye']} onClick={togglePassword} /> : <AiOutlineEyeInvisible className={styles['form-eye']} onClick={togglePassword} />}
+        {showConfir ? <AiOutlineEye className={styles['form-eye']} id='confirmPassword' onClick={togglePassword} /> : <AiOutlineEyeInvisible className={styles['form-eye']} id='confirmPassword' onClick={togglePassword} />}
       </div>}
 
       {error && <div className={styles['form_error']}>
