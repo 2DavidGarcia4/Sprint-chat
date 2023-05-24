@@ -51,9 +51,9 @@ export default function Navigator(){
           <Link href={'/me'}>
             <div className={styles.navigator_elements_user}>
               {
-                true ?
-                (isActiveRoute('/me') ? <HiUser className={styles.navigator_icon} /> : <HiOutlineUser className={styles.navigator_icon} />) :
-                <img src="" alt="" />
+                user?.avatarUrl ?
+                <img className={styles.navigator_avatar} src={user.avatarUrl} alt='User avatar' width={34} height={34} /> :
+                (isActiveRoute('/me') ? <HiUser className={styles.navigator_icon} /> : <HiOutlineUser className={styles.navigator_icon} />)
               }
               {user?.status &&
                 <CircleStatus status={user.status} />
