@@ -3,76 +3,66 @@
 import styles from './navigator.module.scss'
 
 import Link from 'next/link'
+import Image from 'next/image'
+import { useRef } from 'react'
+import { BsX } from 'react-icons/bs'
+import { BiMenuAltRight } from 'react-icons/bi'
 import { usePathname } from 'next/navigation'
-import { BsChatLeftText, BsChatLeftTextFill } from 'react-icons/bs'
-import { RiContactsLine, RiContactsFill } from 'react-icons/ri'
-import { HiOutlineUser, HiUser } from 'react-icons/hi'
-import { BsGear, BsGearFill } from 'react-icons/bs'
-import { useUser } from '@/hooks/user'
-import { useUserCtx } from '@/context/contexts'
-import { MouseEvent, useEffect } from 'react'
-import CircleStatus from '../status/CircleStatus'
-import { customFetch } from '@/utils/functions'
 
-const routes = ['/chats', '/me', '/friends', '/settings']
+const routes = [
+  {
+    name: 'App',
+    path: '/app'
+  },
+  {
+    name: 'Acerca',
+    path: '/about'
+  },
+  {
+    name: 'Actualizaciones',
+    path: '/updates'
+  },
+]
 
 export default function Navigator(){
-  const pathname = usePathname()
-  const { protectedRoute } = useUser()
-  const { user, setUser } = useUserCtx()
+  const headerRef = useRef<HTMLElement>(null)
+  const navRef = useRef<HTMLElement>(null)
+  const pathName = usePathname()
+  
+  const inRoute = (route: string) => pathName == route
 
-  useEffect(()=> {
-    customFetch(`users/@me`).then(res=> {
-      if(res.id) setUser(res)
+  const toggleNav = () => {
+    navRef.current?.classList.toggle(styles.open)
+  }
+
+  if(typeof document != "undefined"){
+    document.addEventListener('scroll', () => {
+      headerRef.current?.classList.toggle(styles.active, window.scrollY > 80)
     })
-    .catch(()=> '')
-  }, [])
-
-  const isActiveRoute = (routName: string) => routName == pathname
-
-  const handlerClick = ({currentTarget: { classList }}: MouseEvent<HTMLLIElement>) => {
-    // const target = e.currentTarget
-    classList.add(styles.animation)
-    setTimeout(()=> {
-      classList.remove(styles.animation)
-    }, 400)
-    protectedRoute()
   }
 
   return (
-    <nav className={`${styles.navigator} ${!routes.some(s=> s==pathname) ? styles.hide : ''}`}>
-      <ul className={styles.navigator_elements}>
-        <li onClick={handlerClick} className={`${styles.navigator_elements_item} ${isActiveRoute('/') ? styles.selected : ''}`}>
-          <Link href={'/chats'}>
-            {isActiveRoute('/chats') ? <BsChatLeftTextFill className={styles.navigator_icon}  /> : <BsChatLeftText className={styles.navigator_icon} />}
+    <>
+      {(!pathName.includes('/app')) && <header ref={headerRef} className={styles.header}>
+        <div className={styles['header-container']}>
+          <Link className={styles['header_title']} href={'/'}>
+            <Image className={styles['header_title-image']} src={'/sprint-icon.png'} alt='Logo' width={40} height={40} />
+            <h1 className={styles['header_title-text']}>Sprint chat</h1>
           </Link>
-        </li>
-        <li onClick={handlerClick} className={`${styles.navigator_elements_item} ${isActiveRoute('/me') ? styles.selected : ''}`}>
-          <Link href={'/me'}>
-            <div className={styles.navigator_elements_user}>
-              {
-                user?.avatarUrl ?
-                <img className={styles.navigator_avatar} src={user.avatarUrl} alt='User avatar' width={34} height={34} /> :
-                (isActiveRoute('/me') ? <HiUser className={styles.navigator_icon} /> : <HiOutlineUser className={styles.navigator_icon} />)
-              }
-              {user?.status &&
-                <CircleStatus status={user.status} />
-              }
-              
-            </div>
-          </Link>
-        </li>
-        <li onClick={handlerClick} className={`${styles.navigator_elements_item} ${isActiveRoute('/friends') ? styles.selected : ''}`}>
-          <Link href={'/friends'}>
-            {isActiveRoute('/friends') ? <RiContactsFill className={styles.navigator_icon} /> : <RiContactsLine className={styles.navigator_icon} />}
-          </Link>
-        </li>
-        <li onClick={handlerClick} className={`${styles.navigator_elements_item} ${isActiveRoute('/settings') ? styles.selected : ''}`}>
-          <Link href={'/settings'}>
-            {isActiveRoute('/settings') ? <BsGearFill className={styles.navigator_icon} /> : <BsGear className={styles.navigator_icon} />}
-          </Link>
-        </li>
-      </ul>
-    </nav>
+          <BiMenuAltRight className={`${styles.icon} ${styles['header-open']}`} onClick={toggleNav} />
+
+          <nav ref={navRef} className={styles.nav}>
+            <BsX className={`${styles.icon} ${styles['nav-close']}`} onClick={toggleNav} />
+            <ul className={styles['nav-items']}>
+              {routes.map(r=> <li key={r.path} className={`${styles['nav_item']} ${inRoute(r.path) ? styles.selected : ''}`}>
+                <Link className={styles['nav_item-link']} href={r.path}>
+                  {r.name}
+                </Link>
+              </li>)}
+            </ul>
+          </nav>
+        </div>
+      </header>}
+    </>
   )
 }
