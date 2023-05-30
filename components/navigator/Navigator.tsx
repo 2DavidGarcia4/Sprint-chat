@@ -8,11 +8,13 @@ import { useRef } from 'react'
 import { BsX } from 'react-icons/bs'
 import { BiMenuAltRight } from 'react-icons/bi'
 import { usePathname } from 'next/navigation'
+import AppNavigator from '../appNavigator/AppNavigator'
+import { appRoutes } from '@/utils/data'
 
 const routes = [
   {
-    name: 'App',
-    path: '/app'
+    name: 'Chat',
+    path: '/chats'
   },
   {
     name: 'Acerca',
@@ -43,7 +45,7 @@ export default function Navigator(){
 
   return (
     <>
-      {(!pathName.includes('/app')) && <header ref={headerRef} className={styles.header}>
+      {(!appRoutes.some(r=> pathName.includes(r))) ? <header ref={headerRef} className={styles.header}>
         <div className={styles['header-container']}>
           <Link className={styles['header_title']} href={'/'}>
             <Image className={styles['header_title-image']} src={'/sprint-icon.png'} alt='Logo' width={40} height={40} />
@@ -62,7 +64,9 @@ export default function Navigator(){
             </ul>
           </nav>
         </div>
-      </header>}
+      </header> :
+      <AppNavigator />
+      }
     </>
   )
 }

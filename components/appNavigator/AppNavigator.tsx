@@ -13,14 +13,12 @@ import { useUserCtx } from '@/context/contexts'
 import { MouseEvent } from 'react'
 import CircleStatus from '../status/CircleStatus'
 
-const routes = ['/chats', '/me', '/friends', '/settings']
-
 export default function AppNavigator(){
   const pathname = usePathname()
   const { protectedRoute } = useUser()
   const { user, setUser } = useUserCtx()
 
-  const isActiveRoute = (routName: string) => routName == pathname
+  const isActiveRoute = (routName: string) => pathname.includes(routName)
 
   const handlerClick = ({currentTarget: { classList }}: MouseEvent<HTMLLIElement>) => {
     // const target = e.currentTarget
@@ -34,18 +32,18 @@ export default function AppNavigator(){
   return (
     <nav className={`${styles.navigator} `}>
       <ul className={styles.navigator_elements}>
-        <li onClick={handlerClick} className={`${styles.navigator_elements_item} ${isActiveRoute('/app') ? styles.selected : ''}`}>
-          <Link href={'/app'}>
-            {isActiveRoute('/app') ? <BsChatLeftTextFill className={styles.navigator_icon}  /> : <BsChatLeftText className={styles.navigator_icon} />}
+        <li onClick={handlerClick} className={`${styles.navigator_elements_item} ${isActiveRoute('/chats') ? styles.selected : ''}`}>
+          <Link href={'/chats'}>
+            {isActiveRoute('/chats') ? <BsChatLeftTextFill className={styles.navigator_icon}  /> : <BsChatLeftText className={styles.navigator_icon} />}
           </Link>
         </li>
-        <li onClick={handlerClick} className={`${styles.navigator_elements_item} ${isActiveRoute('/app/me') ? styles.selected : ''}`}>
-          <Link href={'/app/me'}>
+        <li onClick={handlerClick} className={`${styles.navigator_elements_item} ${isActiveRoute('/me') ? styles.selected : ''}`}>
+          <Link href={'/me'}>
             <div className={styles.navigator_elements_user}>
               {
                 user?.avatarUrl ?
                 <img className={styles.navigator_avatar} src={user.avatarUrl} alt='User avatar' width={34} height={34} /> :
-                (isActiveRoute('/app/me') ? <HiUser className={styles.navigator_icon} /> : <HiOutlineUser className={styles.navigator_icon} />)
+                (isActiveRoute('/me') ? <HiUser className={styles.navigator_icon} /> : <HiOutlineUser className={styles.navigator_icon} />)
               }
               {user?.status &&
                 <CircleStatus status={user.status} />
@@ -54,13 +52,13 @@ export default function AppNavigator(){
             </div>
           </Link>
         </li>
-        <li onClick={handlerClick} className={`${styles.navigator_elements_item} ${isActiveRoute('/app/friends') ? styles.selected : ''}`}>
-          <Link href={'/app/friends'}>
+        <li onClick={handlerClick} className={`${styles.navigator_elements_item} ${isActiveRoute('/friends') ? styles.selected : ''}`}>
+          <Link href={'/friends'}>
             {isActiveRoute('/friends') ? <RiContactsFill className={styles.navigator_icon} /> : <RiContactsLine className={styles.navigator_icon} />}
           </Link>
         </li>
-        <li onClick={handlerClick} className={`${styles.navigator_elements_item} ${isActiveRoute('/app/settings') ? styles.selected : ''}`}>
-          <Link href={'/app/settings'}>
+        <li onClick={handlerClick} className={`${styles.navigator_elements_item} ${isActiveRoute('/settings') ? styles.selected : ''}`}>
+          <Link href={'/settings'}>
             {isActiveRoute('/settings') ? <BsGearFill className={styles.navigator_icon} /> : <BsGear className={styles.navigator_icon} />}
           </Link>
         </li>

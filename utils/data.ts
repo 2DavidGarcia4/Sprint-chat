@@ -7,3 +7,5 @@ export const statusTypes = {
   '3': 'dnd',
   '4': 'say'
 }
+
+export const appRoutes = ['/chats', '/me', '/friends', '/settings']
