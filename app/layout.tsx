@@ -1,6 +1,10 @@
-import Navigator from '@/components/navigator/Nevigator'
-import './globals.css'
+import '@/styles/globals.css'
+import '@/styles/dialogs.scss'
+import '@/styles/buttons.scss'
 import { Inter } from 'next/font/google'
+import Navigator from '@/components/navigator/Navigator'
+import GlobalProviders from '@/context/globalProviders'
+import Tooltip from '@/components/shared/tooltip/Tooltip'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -17,8 +21,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <Navigator />
-        {children}
+        <GlobalProviders>
+          <Navigator />
+          {children}
+          <Tooltip />
+        </GlobalProviders>
       </body>
     </html>
   )
