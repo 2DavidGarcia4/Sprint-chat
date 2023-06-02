@@ -18,9 +18,7 @@
     justify-content: space-between;
 
     &_item{
-      display: flex;
-      align-items: center;
-      flex-direction: column;
+      height: 50px;
       transition: transform 0.4s;
 
       &.animation{
@@ -28,8 +26,10 @@
       }
 
       & a{
+        height: 100%;
         display: flex;
         padding: 8px;
+        align-items: center;
       }
 
       & p{
