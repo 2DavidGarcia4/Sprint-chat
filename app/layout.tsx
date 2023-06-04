@@ -5,6 +5,7 @@ import { Inter } from 'next/font/google'
 import Navigator from '@/components/navigator/Navigator'
 import GlobalProviders from '@/context/globalProviders'
 import Tooltip from '@/components/shared/tooltip/Tooltip'
+import DynamicPanel from '@/components/shared/panel/DynamicPanel'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -25,6 +26,7 @@ export default function RootLayout({
           <Navigator />
           {children}
           <Tooltip />
+          <DynamicPanel />
         </GlobalProviders>
       </body>
     </html>
