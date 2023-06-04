@@ -27,12 +27,17 @@ export function useMeCtx() {
 
 
 //* Tooltip
+export interface TooltipOption {
+  icon: string | JSX.Element,
+  name: string,
+  function: ()=> any
+}
+
 export interface Tooltip {
-  x: number
-  y: number
   rect: DOMRect
   content: string
-  direction: 'top' | 'left' | 'bottom' | 'right'
+  direction: 'top' | 'left' | 'bottom' | 'right',
+  options?: TooltipOption[]
 }
 
 export interface TooltipContextTs {
@@ -51,4 +56,27 @@ interface Notification {
   type: 'success' | 'error' | 'info' | 'warning'
   text: string
   time?: number
+}
+
+
+//* Dynamic panel
+export interface Searchable {
+  list: any[]
+  target: string
+  itemComponent: ({item}: {item: any}) => JSX.Element
+}
+
+export interface DynamicPanel {
+  title?: string
+  searchable?: Searchable
+}
+
+export interface DynamicPanelContextTs {
+  panel: DynamicPanel | undefined
+  setPanel: Dispatch<SetStateAction<DynamicPanel | undefined>>
+}
+
+export const DynamicPanelContext = createContext<DynamicPanelContextTs | undefined>(undefined)
+export function useCtxDynamicPanel() {
+  return useContext(DynamicPanelContext) as DynamicPanelContextTs
 }
