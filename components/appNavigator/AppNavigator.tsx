@@ -18,12 +18,11 @@ export default function AppNavigator(){
   const pathname = usePathname()
   const { protectedRoute } = useUser()
   const { user } = useUserCtx()
-  const { addTooltip, events } = useTooltip()
+  const { events } = useTooltip()
 
   const isActiveRoute = (routName: string) => pathname.includes(routName)
 
   const handlerClick = ({currentTarget: { classList }}: MouseEvent<HTMLLIElement>) => {
-    // const target = e.currentTarget
     classList.add(styles.animation)
     setTimeout(()=> {
       classList.remove(styles.animation)

@@ -9,7 +9,7 @@ import { BsX } from 'react-icons/bs'
 import { BiMenuAltRight } from 'react-icons/bi'
 import { usePathname } from 'next/navigation'
 import AppNavigator from '../appNavigator/AppNavigator'
-import { appRoutes } from '@/utils/data'
+import { appRoutes, oterRoutes } from '@/utils/data'
 
 const routes = [
   {
@@ -45,7 +45,8 @@ export default function Navigator(){
 
   return (
     <>
-      {(!appRoutes.some(r=> pathName.includes(r))) ? <header ref={headerRef} className={styles.header}>
+      {!oterRoutes.some(r=> pathName.includes(r)) &&
+      (!appRoutes.some(r=> pathName.includes(r)) ? <header ref={headerRef} className={styles.header}>
         <div className={styles['header-container']}>
           <Link className={styles['header_title']} href={'/'}>
             <Image className={styles['header_title-image']} src={'/sprint-icon.png'} alt='Logo' width={40} height={40} />
@@ -66,7 +67,7 @@ export default function Navigator(){
         </div>
       </header> :
       <AppNavigator />
-      }
+      )}
     </>
   )
 }

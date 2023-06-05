@@ -9,3 +9,4 @@ export const statusTypes = {
 }
 
 export const appRoutes = ['/chats', '/me', '/friends', '/settings']
+export const oterRoutes = ['/login', '/register']
