@@ -21,14 +21,10 @@ export default function CustomForm({type}: {type: 'login' | 'register'}){
   const handlerSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
 
-    const email = e.currentTarget.email.value
-    const password = e.currentTarget.password.value
+    const fields = Object.fromEntries(new window.FormData(e.currentTarget))
     
     if(type == 'login'){
-      customFetch(`auth/login`, 'POST', {
-        email,
-        password
-      }).then(res=> {
+      customFetch(`auth/login`, 'POST', fields).then(res=> {
 
         if(res.status == 401) return setError('Campos inválidos\nEl coreo o la contraseña es invalida.')
 
@@ -43,16 +39,9 @@ export default function CustomForm({type}: {type: 'login' | 'register'}){
       .catch(()=> console.error('Error in login'))
 
     }else{
-      const userName = e.currentTarget.userName.value
-      const confirmPassword = e.currentTarget.confirmPassword.value
+      if(fields.password != fields.confirmPassword) return setError('Las contraseñas son diferentes')
 
-      if(password != confirmPassword) return setError('Las contraseñas son diferentes')
-
-      customFetch(`auth/register`, 'POST', {
-        userName,
-        email,
-        password
-      }).then(res=> {
+      customFetch(`auth/register`, 'POST', fields).then(res=> {
         if(res.status == 400) {
           if(res.message.includes('llave duplicada') && res.message.includes('user_name')) return setError('El nombre de usuario que ingresaste ya ha sido utilizado por otro usuario.\nIngresa otro nombre de usuario')
           if(res.message.includes('llave duplicada') && res.message.includes('email')) return setError('El correo que ingresaste pertenece a otro usuario.\nIngresa otro correo.')
@@ -91,19 +80,19 @@ export default function CustomForm({type}: {type: 'login' | 'register'}){
 
       {type == 'register' && (
         <div className={styles['form-element']}>
-          <input className={styles['form-input']} onChange={handlerChange} type="text" id='userName' placeholder='&nbsp;' pattern="^[a-zA-Z0-9]+$" minLength={4} required />
+          <input className={styles['form-input']} onChange={handlerChange} type="text" name='userName' placeholder='&nbsp;' pattern="^[a-zA-Z0-9]+$" minLength={4} required />
           <span className={styles['form-name']}>Nombre de usuario</span>
           <p className={styles['form-element-info']}>Su nombre de usuario debe de ser unico y tener entre <strong>4</strong> y <strong>30</strong> caracteres, y no debe contener espacios, caracteres especiales ni emojis.</p>
         </div>
       )}
 
       <div className={styles['form-element']}>
-        <input className={styles['form-input']} onChange={handlerChange} type="email" id='email' placeholder='&nbsp;' required />
+        <input className={styles['form-input']} onChange={handlerChange} type="email" name='email' placeholder='&nbsp;' required />
         <span className={styles['form-name']}>Correo</span>
       </div>
 
       <div className={styles['form-element']}>
-        <input className={styles['form-input']} onChange={handlerChange} type={show ? "text" : "password"} id='password' placeholder='&nbsp;' minLength={8} maxLength={20} required />
+        <input className={styles['form-input']} onChange={handlerChange} type={show ? "text" : "password"} name='password' placeholder='&nbsp;' minLength={8} maxLength={20} required />
         <span className={styles['form-name']}>Contraseña</span>
         {show ? <AiOutlineEye className={styles['form-eye']} id='password' onClick={togglePassword} /> : <AiOutlineEyeInvisible className={styles['form-eye']} id='password' onClick={togglePassword} />}
         {type == 'register' && 
@@ -112,7 +101,7 @@ export default function CustomForm({type}: {type: 'login' | 'register'}){
       </div>
 
       {type == 'register' && <div className={styles['form-element']}>
-        <input className={styles['form-input']} onChange={handlerChange} type={showConfir ? "text" : "password"} id='confirmPassword' placeholder='&nbsp;' minLength={8} maxLength={20} required />
+        <input className={styles['form-input']} onChange={handlerChange} type={showConfir ? "text" : "password"} name='confirmPassword' placeholder='&nbsp;' minLength={8} maxLength={20} required />
         <span className={styles['form-name']}>Confirmar contraseña</span>
         {showConfir ? <AiOutlineEye className={styles['form-eye']} id='confirmPassword' onClick={togglePassword} /> : <AiOutlineEyeInvisible className={styles['form-eye']} id='confirmPassword' onClick={togglePassword} />}
       </div>}
