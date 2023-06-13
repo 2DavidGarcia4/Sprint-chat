@@ -12,7 +12,7 @@ export function useTooltip() {
 
     setTooltip({
       rect,
-      content: currentTarget.dataset.tooltip || 'undefined',
+      content: currentTarget.dataset.name || 'undefined',
       direction: (currentTarget.dataset.direction || 'top') as Tooltip['direction'],
     })
   }

@@ -33,12 +33,12 @@ export default function AppNavigator(){
   return (
     <nav className={`${styles.navigator} `}>
       <ul className={styles.navigator_elements}>
-        <li {...events} onClick={handlerClick} className={`${styles.navigator_elements_item} ${isActiveRoute('/chats') ? styles.selected : ''}`} data-tooltip='Chats genial' data-direction='top'>
+        <li {...events} onClick={handlerClick} className={`${styles.navigator_elements_item} ${isActiveRoute('/chats') ? styles.selected : ''}`} data-name='Chats' data-direction='top'>
           <Link href={'/chats'}>
             {isActiveRoute('/chats') ? <BsChatLeftTextFill className={styles.navigator_icon}  /> : <BsChatLeftText className={styles.navigator_icon} />}
           </Link>
         </li>
-        <li {...events} onClick={handlerClick} className={`${styles.navigator_elements_item} ${isActiveRoute('/me') ? styles.selected : ''}`} data-tooltip='Tu perfil' data-direction='top'>
+        <li {...events} onClick={handlerClick} className={`${styles.navigator_elements_item} ${isActiveRoute('/me') ? styles.selected : ''}`} data-name='Tu perfil' data-direction='top'>
           <Link href={'/me'}>
             <div className={styles.navigator_elements_user}>
               {
@@ -53,12 +53,12 @@ export default function AppNavigator(){
             </div>
           </Link>
         </li>
-        <li {...events} onClick={handlerClick} className={`${styles.navigator_elements_item} ${isActiveRoute('/friends') ? styles.selected : ''}`} data-direction='top' data-tooltip='Tus amigos'>
+        <li {...events} onClick={handlerClick} className={`${styles.navigator_elements_item} ${isActiveRoute('/friends') ? styles.selected : ''}`} data-direction='top' data-name='Tus amigos'>
           <Link href={'/friends'}>
             {isActiveRoute('/friends') ? <RiContactsFill className={styles.navigator_icon} /> : <RiContactsLine className={styles.navigator_icon} />}
           </Link>
         </li>
-        <li {...events} onClick={handlerClick} className={`${styles.navigator_elements_item} ${isActiveRoute('/settings') ? styles.selected : ''}`} data-direction='top' data-tooltip='Configuración'>
+        <li {...events} onClick={handlerClick} className={`${styles.navigator_elements_item} ${isActiveRoute('/settings') ? styles.selected : ''}`} data-direction='top' data-name='Configuración'>
           <Link href={'/settings'}>
             {isActiveRoute('/settings') ? <BsGearFill className={styles.navigator_icon} /> : <BsGear className={styles.navigator_icon} />}
           </Link>
