@@ -1,19 +1,21 @@
-'use client'
-
-import styles from './me.module.scss'
+import styles from '../me.module.scss'
 
 import { useRef, useState, useEffect, ChangeEvent, Dispatch, SetStateAction } from 'react'
 import { BsX } from 'react-icons/bs'
-import { useUserCtx, useMeCtx } from '@/context/contexts'
+import { useCtxUser } from '@/context/contexts'
 import { customFetch } from '@/utils/functions'
 
 const defaultColor = '#858585'
 
-export default function EditColor({color, updatedColor, setupdatedColor, setShow}: {color?: string, userId?: string, updatedColor: string, setupdatedColor: Dispatch<SetStateAction<string>>, setShow: Dispatch<SetStateAction<boolean>>}){
+export default function EditColor({color, updatedColor, setupdatedColor, setShow}: {
+  color?: string
+  updatedColor: string
+  setupdatedColor: Dispatch<SetStateAction<string>>
+  setShow: Dispatch<SetStateAction<boolean>>
+}){
   const [change, setChange] = useState(false)
   const editColorRef = useRef<HTMLDivElement>(null)
-  const { setUser } = useUserCtx()
-  const { userId } = useMeCtx()
+  const { user, setUser } = useCtxUser()
 
   useEffect(()=> {
     if(editColorRef.current){
@@ -35,7 +37,7 @@ export default function EditColor({color, updatedColor, setupdatedColor, setShow
   }
 
   const saveChanges = () => {
-    if(userId) customFetch(`users/${userId}`, 'PATCH', {color: updatedColor}).then(res=> {
+    if(user) customFetch(`users/${user.id}`, 'PATCH', {color: updatedColor}).then(res=> {
       if(res.id){
         setUser(res)
         closeEditColor()

@@ -1,23 +1,26 @@
-'use client'
-
-import { customFetch } from '@/utils/functions'
-import styles from './me.module.scss'
+import styles from '../me.module.scss'
 
 import { useRef, useState, useEffect, ChangeEvent, Dispatch, SetStateAction } from 'react'
 import { FaEdit } from 'react-icons/fa'
 import { MdSave } from 'react-icons/md'
-import { useUserCtx, useMeCtx } from '@/context/contexts'
+import { useCtxUser, useMeCtx } from '@/context/contexts'
 import { User } from '@/utils/types'
+import { customFetch } from '@/utils/functions'
 
-export default function EditName({type, name, active, setShow}: {type: 'normal' | 'user', userId?: string, name?: string, active?: boolean, setShow?: Dispatch<SetStateAction<boolean>>}){
+export default function EditName({type, name, active, setShow}: {
+  type: 'normal' | 'user'
+  name?: string
+  active?: boolean
+  setShow?: Dispatch<SetStateAction<boolean>>
+}){
   const inputRef = useRef<HTMLInputElement>(null)
   const [change, setChange] = useState(false)
   const [edit, setEdit] = useState(active || false)
   const [message, setMessage] = useState('')
   const [updatedName, setUpdatedName] = useState(name)
-  const { setUser } = useUserCtx()
+  const { user, setUser } = useCtxUser()
   const [usersNames, setUsersNames] = useState<Pick<User, 'id' | 'userName'>[]>([])
-  const { userId, valid, setValid, setShowValidator } = useMeCtx()
+  const { valid, setValid, setShowValidator } = useMeCtx()
 
   useEffect(()=> {
     if(inputRef.current){
@@ -71,14 +74,14 @@ export default function EditName({type, name, active, setShow}: {type: 'normal' 
       
       if(!/^[a-zA-Z0-9]+$/.test(value)) return setMessage('Solo letras y números sin espacios ni otro tipo de caracteres')
        
-      if(usersNames.some(s=> s.id != userId && s.userName == value)) return setMessage('Ese nombre de usuario ya lo tiene alguien más')
+      if(usersNames.some(s=> s.id != user?.id && s.userName == value)) return setMessage('Ese nombre de usuario ya lo tiene alguien más')
 
       if(message) setMessage('')
     }
   }
 
   function updateChanges() {
-    if(userId) customFetch(`users/${userId}`, 'PATCH', type == 'normal' ? {name: updatedName} : {userName: updatedName}).then(res=> {
+    if(user) customFetch(`users/${user.id}`, 'PATCH', type == 'normal' ? {name: updatedName} : {userName: updatedName}).then(res=> {
       if(res.id){
         setUser(res)
         setChange(false)

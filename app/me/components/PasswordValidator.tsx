@@ -1,4 +1,4 @@
-import styles from './me.module.scss'
+import styles from '../me.module.scss'
 
 import { useRef, useState, FormEvent, ChangeEvent, useEffect } from 'react'
 import { useMeCtx } from '@/context/contexts'

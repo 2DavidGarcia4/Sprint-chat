@@ -1,6 +1,4 @@
-'use client'
-
-import styles from './me.module.scss'
+import styles from '../me.module.scss'
 
 import { useRef, useState, MouseEvent, ReactNode } from 'react'
 import { IoIosArrowForward } from 'react-icons/io'

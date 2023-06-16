@@ -2,23 +2,23 @@
 
 import styles from './me.module.scss'
 
-import { useRef, useState, useEffect, FormEvent, ChangeEvent, HTMLInputTypeAttribute } from 'react'
+import { useRef, useState, useEffect, useCallback, FormEvent, ChangeEvent, HTMLInputTypeAttribute } from 'react'
 import { HiUser, HiPencil } from 'react-icons/hi'
 import { IoMdAdd } from 'react-icons/io'
 import { BsCircleFill } from 'react-icons/bs'
 import { RiLockPasswordFill } from 'react-icons/ri'
 import { MdEmojiEmotions } from 'react-icons/md'
-import { MeContext, useUserCtx } from '@/context/contexts'
+import { MeContext, useCtxUser } from '@/context/contexts'
 import CircleStatus from '@/components/status/CircleStatus'
-import AboutMe from './AboutMe'
-import EditColor from './EditColor'
-import EditName from './EditName'
-import PasswordValidator from './PasswordValidator'
-import Option from './Option'
+import AboutMe from './components/AboutMe'
+import EditColor from './components/EditColor'
+import EditName from './components/EditName'
+import PasswordValidator from './components/PasswordValidator'
+import Option from './components/Option'
 import { customFetch } from '@/utils/functions'
 import { useRouter } from 'next/navigation'
 import ConfirmationDialog from '@/components/custom/ConfirmationDialog'
-import CustomEditForm from './customEdit/CustomEditForm'
+import CustomEditForm from './components/customEdit/CustomEditForm'
 
 const status = [
   {
@@ -47,7 +47,7 @@ export default function Me(){
   const [valid, setValid] = useState<boolean | undefined>()
   const [showColorEdit, setShowColorEdit] = useState(false) 
   const [updatedColor, setUpdatedColor] = useState('')
-  const { user, setUser } = useUserCtx() 
+  const { user, setUser } = useCtxUser() 
   const [showAddName, setShowAddName] = useState(false)
   const [newPassword, setNewPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
@@ -102,7 +102,7 @@ export default function Me(){
     if(newPasswordMessage) setNewPasswordMessage('')
   }
 
-  const closeSession = () => {
+  const closeSession = useCallback(() => {
     if(typeof localStorage != 'undefined'){
       localStorage.removeItem('secret')
       setUser(undefined)
@@ -110,9 +110,9 @@ export default function Me(){
     }
 
     setShowConfirmation(false)
-  }
+  }, [setUser])
 
-  const openEditAvatar = () => {
+  const openEditAvatar = useCallback(() => {
     setCustomEditData({
       title: 'Editar avatar',
       inputs: [
@@ -126,9 +126,9 @@ export default function Me(){
         }
       ]
     })
-  }
+  }, [user])
 
-  const openEditCustomStatus = () => {
+  const openEditCustomStatus = useCallback(() => {
     setCustomEditData({
       title: 'Editar avatar',
       type: 'status',
@@ -153,7 +153,7 @@ export default function Me(){
         }
       ]
     })
-  }
+  }, [user])
 
   return (
     <section className={styles.me}>
@@ -167,9 +167,11 @@ export default function Me(){
       {customEditData && <CustomEditForm 
         {...customEditData} onClose={()=> setCustomEditData(undefined)} />
       }
-      <MeContext.Provider value={{ userId: user?.id, showValidator, setShowValidator, valid, setValid }}>
+
+      {showColorEdit && <EditColor color={user?.color || undefined} updatedColor={updatedColor} setupdatedColor={setUpdatedColor} setShow={setShowColorEdit} />}
+      <MeContext.Provider value={{ showValidator, setShowValidator, valid, setValid }}>
         {showValidator && <PasswordValidator />}
-        {showColorEdit && <EditColor color={user?.color || undefined} updatedColor={updatedColor} setupdatedColor={setUpdatedColor} setShow={setShowColorEdit} />}
+        
         <div className={styles['me_profile']}>
 
           <div className={styles['me_profile-color']} style={{backgroundColor: updatedColor || user?.color || undefined}}>
@@ -184,7 +186,7 @@ export default function Me(){
                 <HiPencil />
               </div>
               {user?.avatarUrl ?
-                <img className={styles['me_profile-avatar-img']} src={user?.avatarUrl} alt='User avatar' width={80} height={80} /> :
+                <img className={styles['me_profile-avatar-img']} src={user.avatarUrl} alt={`Avatar de ${user.userName}`} width={80} height={80} /> :
                 <HiUser className={styles['me_profile-avatar-icon']} />
               }
               {user?.status && <CircleStatus status={user.status} size={24} />}
@@ -251,6 +253,7 @@ export default function Me(){
                   <p className={styles['me_profile_customStatu-text']}>Establecer estado personalizado</p>
                 </div>
               </Option>
+
               <Option head={(
                 <>
                   <RiLockPasswordFill className={styles['me_profile_option-icon']} />

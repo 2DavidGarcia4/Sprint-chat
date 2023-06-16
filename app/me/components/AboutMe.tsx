@@ -1,12 +1,10 @@
-'use client'
-
-import styles from './me.module.scss'
+import styles from '../me.module.scss'
 
 import { useRef, useState, ChangeEvent } from 'react'
 import { transformText, customFetch } from '@/utils/functions'
 import { FaEdit } from 'react-icons/fa'
 import { MdSave } from 'react-icons/md'
-import { useUserCtx } from '@/context/contexts'
+import { useCtxUser } from '@/context/contexts'
 
 const charLimit = 200
 
@@ -16,7 +14,7 @@ export default function AboutMe({userId, about}: {userId?: string, about?: strin
   const [changes, setChanges] = useState(false)
   const [updatedAbout, setUpdatedAbout] = useState('')
   const [characters, setCharacters] = useState(about ? charLimit-about.length : charLimit-updatedAbout.length)
-  const { setUser } = useUserCtx()
+  const { setUser } = useCtxUser()
 
   const activeTextArea = () => {
     setActiveEdit(true)
