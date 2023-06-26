@@ -1,4 +1,5 @@
-export const endPoint = 'http://localhost:2004/api/v1/'
+export const API_URL = 'http://localhost:2004'
+export const API_ENDPOINT = API_URL+'/api/v1/'
 
 export const statusTypes = {
   '0': 'offline',

@@ -3,7 +3,7 @@ import styles from '../friends.module.scss'
 import { useEffect, useState, Dispatch, SetStateAction } from 'react'
 import { FriendRequest, User } from '@/utils/types'
 import RequestCard from './RequestCard'
-import { useFriendsCtx } from '@/context/contexts'
+import { useFriendsCtx } from '@/contexts'
 import ItemsList from './ItemsList'
 
 export default function RequestsList({user}: {

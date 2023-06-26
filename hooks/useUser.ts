@@ -1,10 +1,9 @@
-import { useUserCtx } from '@/context/contexts'
-import { endPoint } from '@/utils/data'
+import { useCtxUser } from '@/contexts'
 import { useRouter } from 'next/navigation'
 
 export function useUser() {
   const route = useRouter()
-  const { user } = useUserCtx()
+  const { user } = useCtxUser()
 
   const isLoged = Boolean(user)
 

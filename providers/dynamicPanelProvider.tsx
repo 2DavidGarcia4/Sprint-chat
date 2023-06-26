@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, ReactNode } from 'react'
-import { DynamicPanelContext, DynamicPanelContextTs } from "./contexts"
+import { DynamicPanelContext, DynamicPanelContextTs } from "../contexts"
 
 const data = {
   list: [

@@ -3,7 +3,7 @@
 import styles from './dynamicPanel.module.scss'
 
 import { useEffect, useState, MouseEvent } from 'react'
-import { useCtxDynamicPanel } from '@/context/contexts'
+import { useCtxDynamicPanel } from '@/contexts'
 import SearchableList from './SearchableList'
 import PanelForm from './PanelForm'
 

@@ -1,4 +1,4 @@
-import { Tooltip, TooltipOption, useCtxTooltip } from "@/context/contexts"
+import { Tooltip, TooltipOption, useCtxTooltip } from "@/contexts"
 import { MouseEvent } from 'react'
 
 export function useTooltip() {
@@ -44,6 +44,7 @@ export function useTooltip() {
 
   return {
     createTooltip,
+    deleteTooltip,
     createTooltipOptions,
     events: {
       onMouseEnter: createTooltip,

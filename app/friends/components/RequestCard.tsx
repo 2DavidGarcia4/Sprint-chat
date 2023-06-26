@@ -7,7 +7,7 @@ import { FriendRequest, User } from "@/utils/types";
 import { BsX, BsCheck } from 'react-icons/bs'
 import { HiOutlineUser } from 'react-icons/hi'
 import { customFetch, transformText } from '@/utils/functions';
-import { useCtxUser, useFriendsCtx } from '@/context/contexts';
+import { useCtxUser, useFriendsCtx } from '@/contexts';
 import { socket } from '@/utils/socket';
 
 export default function RequestCard({request, requestType, user}: {

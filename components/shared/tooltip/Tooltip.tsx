@@ -2,7 +2,7 @@
 
 import styles from './tooltip.module.scss'
 import { useEffect, useState, useRef } from 'react'
-import { useCtxTooltip } from "@/context/contexts"
+import { useCtxTooltip } from "@/contexts"
 import { setTooltipPosition } from '@/utils/functions'
 
 export default function Tooltip(){

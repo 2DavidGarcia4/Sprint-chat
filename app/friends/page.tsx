@@ -7,10 +7,11 @@ import HeaderFriends from "./components/HeaderFriends";
 import FriendsList from './components/FriendsList';
 import AddFriend from './components/AddFriend';
 import RequestsList from './components/RequestList';
-import { FriendsContext, useCtxUser } from '@/context/contexts';
+import { FriendsContext, useCtxUser } from '@/contexts';
 import { FriendRequest } from '@/utils/types';
 import { customFetch } from '@/utils/functions';
 import { socket } from '@/utils/socket';
+import HandleStatus from '@/components/autostatus/HandleStatus';
 
 export default function Friends(){
   const { user } = useCtxUser()
@@ -56,6 +57,7 @@ export default function Friends(){
           {(activationIndex == 2 && user) && <RequestsList {...{user}} />}
         </FriendsContext.Provider>
       </div>
+      <HandleStatus />
     </section>
   )
 }

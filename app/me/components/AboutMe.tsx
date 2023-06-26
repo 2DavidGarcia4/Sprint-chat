@@ -4,7 +4,7 @@ import { useRef, useState, ChangeEvent } from 'react'
 import { transformText, customFetch } from '@/utils/functions'
 import { FaEdit } from 'react-icons/fa'
 import { MdSave } from 'react-icons/md'
-import { useCtxUser } from '@/context/contexts'
+import { useCtxUser } from '@/contexts'
 
 const charLimit = 200
 

@@ -1,7 +1,7 @@
 import styles from '../me.module.scss'
 
 import { useRef, useState, FormEvent, ChangeEvent, useEffect } from 'react'
-import { useMeCtx } from '@/context/contexts'
+import { useMeCtx } from '@/contexts'
 import { BsX } from 'react-icons/bs'
 import { customFetch } from '@/utils/functions'
 

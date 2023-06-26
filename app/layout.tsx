@@ -3,9 +3,10 @@ import '@/styles/dialogs.scss'
 import '@/styles/buttons.scss'
 import { Inter } from 'next/font/google'
 import Navigator from '@/components/navigator/Navigator'
-import GlobalProviders from '@/context/globalProviders'
+import GlobalProviders from '@/providers/globalProviders'
 import Tooltip from '@/components/shared/tooltip/Tooltip'
 import DynamicPanel from '@/components/shared/panel/DynamicPanel'
+import '../utils/socket'
 
 const inter = Inter({ subsets: ['latin'] })
 

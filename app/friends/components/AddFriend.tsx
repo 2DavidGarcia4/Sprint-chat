@@ -8,7 +8,7 @@ import { BsX } from 'react-icons/bs'
 import { FriendRequest, User } from '@/utils/types'
 import { HiOutlineUser } from 'react-icons/hi'
 import { FaCheck } from 'react-icons/fa'
-import { useFriendsCtx } from '@/context/contexts'
+import { useFriendsCtx } from '@/contexts'
 
 type UserPreview = Pick<User, 'id' | 'name' | 'userName' | 'email' | 'avatarUrl'>
 

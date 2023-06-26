@@ -8,7 +8,7 @@ import { useRouter } from 'next/navigation'
 import { FormEvent, useState, MouseEvent } from 'react'
 import { BsX } from 'react-icons/bs'
 import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai'
-import { useUserCtx } from '@/context/contexts'
+import { useCtxUser } from '@/contexts'
 import { customFetch } from '@/utils/functions'
 
 export default function CustomForm({type}: {type: 'login' | 'register'}){
@@ -16,7 +16,7 @@ export default function CustomForm({type}: {type: 'login' | 'register'}){
   const [show, setShow] = useState(false)
   const [showConfir, setShowConfir] = useState(false)
   const router = useRouter()
-  const { setUser } = useUserCtx()
+  const { setUser } = useCtxUser()
 
   const handlerSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()

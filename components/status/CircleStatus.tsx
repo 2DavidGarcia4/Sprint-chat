@@ -5,9 +5,18 @@ import styles from './status.module.scss'
 import { useRef, useEffect } from 'react'
 import { UserStatus } from '@/utils/types'
 import { statusTypes } from '@/utils/data'
+import { useTooltip } from '@/hooks/useTooltip'
+import { Tooltip } from '@/contexts'
 
-export default function CircleStatus({status, size}: {status: UserStatus, size?: number}){
+export default function CircleStatus({status, size, tooltip}: {
+  status: UserStatus, 
+  size?: number,
+  tooltip?: {
+    direction: Tooltip['direction']
+  }
+}){
   const thisRef = useRef<HTMLDivElement>(null)
+  const { events } = useTooltip()
 
   useEffect(() => {
     const size = thisRef.current?.parentElement?.clientWidth
@@ -24,6 +33,12 @@ export default function CircleStatus({status, size}: {status: UserStatus, size?:
   }, [])
 
   return (
-    <div ref={thisRef} className={`${styles.circle} ${styles[statusTypes[status.type]]}`} style={size ? {width: `${size}px`, height: `${size}px`, borderWidth: `${Math.floor(size/8)}px`} : undefined} ></div>
+    <div ref={thisRef} className={`${styles.circle} ${styles[statusTypes[status.type]]}`} style={size ? {
+      width: `${size}px`, 
+      height: `${size}px`, 
+      borderWidth: `${Math.floor(size/8)}px`
+    } : undefined} {...(tooltip?.direction ? events : {})} data-direction={tooltip?.direction || ''} data-name={tooltip?.direction ? statusTypes[status.type] : ''} >
+
+    </div>
   )
 }

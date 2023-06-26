@@ -2,7 +2,7 @@ import styles from './customEditForm.module.scss'
 
 import { HTMLInputTypeAttribute, FormEvent, ChangeEvent, useRef, useEffect, useState } from 'react'
 import { BsX } from 'react-icons/bs'
-import { useCtxUser } from '@/context/contexts'
+import { useCtxUser } from '@/contexts'
 import { customFetch } from '@/utils/functions'
 
 export default function CustomEditForm({title, message, inputs, type, onClose}: {

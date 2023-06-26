@@ -2,7 +2,7 @@ import styles from '../me.module.scss'
 
 import { useRef, useState, useEffect, ChangeEvent, Dispatch, SetStateAction } from 'react'
 import { BsX } from 'react-icons/bs'
-import { useCtxUser } from '@/context/contexts'
+import { useCtxUser } from '@/contexts'
 import { customFetch } from '@/utils/functions'
 
 const defaultColor = '#858585'

@@ -3,7 +3,7 @@ import styles from '../me.module.scss'
 import { useRef, useState, useEffect, ChangeEvent, Dispatch, SetStateAction } from 'react'
 import { FaEdit } from 'react-icons/fa'
 import { MdSave } from 'react-icons/md'
-import { useCtxUser, useMeCtx } from '@/context/contexts'
+import { useCtxUser, useMeCtx } from '@/contexts'
 import { User } from '@/utils/types'
 import { customFetch } from '@/utils/functions'
 

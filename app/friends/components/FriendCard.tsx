@@ -8,7 +8,7 @@ import { MdRemoveCircleOutline } from 'react-icons/md'
 import  { useTooltip } from '@/hooks/useTooltip'
 import CircleStatus from '@/components/status/CircleStatus'
 import { customFetch } from '@/utils/functions'
-import { useCtxUser } from '@/context/contexts'
+import { useCtxUser } from '@/contexts'
 import { socket } from '@/utils/socket'
 
 export default function FriendCard({friend, setFriends}: {

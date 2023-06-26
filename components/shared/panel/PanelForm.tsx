@@ -3,7 +3,7 @@
 import styles from './dynamicPanel.module.scss'
 
 import { useState, FormEvent, ChangeEvent } from 'react'
-import { PanelForm, useCtxDynamicPanel } from "@/context/contexts";
+import { PanelForm, useCtxDynamicPanel } from "@/contexts";
 import { HiOutlineUsers } from 'react-icons/hi'
 
 export default function PanelForm({panelForm, panelRef}: {panelForm: PanelForm, panelRef: HTMLDivElement | null}){

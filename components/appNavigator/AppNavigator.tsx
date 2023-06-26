@@ -8,8 +8,8 @@ import { BsChatLeftText, BsChatLeftTextFill } from 'react-icons/bs'
 import { RiContactsLine, RiContactsFill } from 'react-icons/ri'
 import { HiOutlineUser, HiUser } from 'react-icons/hi'
 import { BsGear, BsGearFill } from 'react-icons/bs'
-import { useUser } from '@/hooks/user'
-import { useUserCtx } from '@/context/contexts'
+import { useUser } from '@/hooks/useUser'
+import { useCtxUser } from '@/contexts'
 import { MouseEvent, useEffect } from 'react'
 import CircleStatus from '../status/CircleStatus'
 import { useTooltip } from '@/hooks/useTooltip'
@@ -17,7 +17,7 @@ import { useTooltip } from '@/hooks/useTooltip'
 export default function AppNavigator(){
   const pathname = usePathname()
   const { protectedRoute } = useUser()
-  const { user } = useUserCtx()
+  const { user } = useCtxUser()
   const { events } = useTooltip()
 
   const isActiveRoute = (routName: string) => pathname.includes(routName)

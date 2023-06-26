@@ -1,7 +1,7 @@
 'use client'
 
 import styles from './login.module.scss'
-import { useUser } from '@/hooks/user'
+import { useUser } from '@/hooks/useUser'
 import CustomForm from '@/components/form/CustomForm'
 import CustomMessage from '@/components/message/CustomMessage'
 import { useEffect, useState } from 'react'

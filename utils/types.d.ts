@@ -20,7 +20,7 @@ export interface UserStatus {
 
 export interface User {
   id: string
-  name: string
+  name: string | null
   email: string
   about: string | null
   friends: string[]
@@ -33,4 +33,13 @@ export interface User {
   createdAt: Date
   updatedAt: Date,
   status?: UserStatus
+}
+
+export interface FriendRequest {
+  id: string
+  sender: Pick<User, 'id' | 'name' | 'userName' | 'avatarUrl' | 'friends'> 
+  receiver: Pick<User, 'id' | 'name' | 'userName' | 'avatarUrl' | 'friends'>  
+  message: string | null
+  createdAt: Date
+  updatedAt: Date
 }

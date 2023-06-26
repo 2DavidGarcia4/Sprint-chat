@@ -3,7 +3,7 @@
 import styles from './dynamicPanel.module.scss'
 
 import { useEffect, useState, ChangeEvent } from 'react'
-import { Searchable } from '@/context/contexts'
+import { Searchable } from '@/contexts'
 import { BsSearch } from 'react-icons/bs'
 
 export default function SearchableList({searchable}: {searchable: Searchable}){
